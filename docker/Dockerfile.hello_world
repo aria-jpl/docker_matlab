@@ -1,24 +1,28 @@
 FROM hysds/pge-base
 MAINTAINER Alexander Torres "alexander.p.torres@jpl.nasa.gov"
 
-USER root
+ARG id
+ARG gid
 
-RUN yum update -y \
- && yum install wget unzip libXext libXt-devel libXmu -y \
- && mkdir /mcr-install \
- && cd /mcr-install \
- && wget https://ssd.mathworks.com/supportfiles/downloads/R2019a/Release/5/deployment_files/installer/complete/glnxa64/MATLAB_Runtime_R2019a_Update_5_glnxa64.zip \
- && unzip MATLAB_Runtime_R2019a_Update_5_glnxa64.zip \
- && ./install -mode silent -agreeToLicense yes \
- && rm -Rf /mcr-install
+# Setup MATLAB Runtime
+RUN sudo yum update -y \
+ && sudo yum install wget unzip libXext libXt-devel libXmu -y \
+ && sudo mkdir /mcr-install \
+ && sudo cd /mcr-install \
+ && sudo wget https://ssd.mathworks.com/supportfiles/downloads/R2019a/Release/5/deployment_files/installer/complete/glnxa64/MATLAB_Runtime_R2019a_Update_5_glnxa64.zip \
+ && sudo unzip MATLAB_Runtime_R2019a_Update_5_glnxa64.zip \
+ && sudo ./install -mode silent -agreeToLicense yes \
+ && sudo rm -Rf /mcr-install
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/MATLAB/MATLAB_Runtime/v96/runtime/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v96/bin/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v96/sys/os/glnxa64:/usr/local/MATLAB/MATLAB_Runtime/v96/extern/bin/glnxa64
 ENV XAPPLRESDIR=/usr/local/MATLAB/MATLAB_Runtime/v901/X11/app-defaults
 ENV MCR_CACHE_VERBOSE=true
 ENV MCR_CACHE_ROOT=/tmp
 
-#COPY matlab/example/for_redistribution_files_only /wmhseg_example
-COPY /hello_world /hello_world
-RUN ["chmod", "+x", "/hello_world/hello_world.m"]
+# Copy hello world repo 
+COPY /hello_world /home/ops/verdi/ops/
+#RUN ["chmod", "+x", "/hello_world/hello_world.m"]
 
-WORKDIR /root
-#CMD ["/bin/bash", "--login"]
+# Set entrypoint
+USER ops
+WORKDIR /home/ops
+CMD ["/bin/bash", "--login"]
