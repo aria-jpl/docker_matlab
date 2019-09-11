@@ -1,5 +1,5 @@
 {
-  "command": "/home/ops/verdi/ops/hello_world/run_hello_world.sh",
+  "command": "/home/ops/verdi/ops/hello_world/hello_world",
   "recommended-queues": [ "job_worker-small" ],
   "params": []
 }
