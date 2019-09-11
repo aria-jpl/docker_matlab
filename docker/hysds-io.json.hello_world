@@ -1,4 +1,5 @@
 {
-  "label": "Hello World",
+  "label": "MATLAB Hello World",
+  "submission_type": "individual",
   "params": []
 }

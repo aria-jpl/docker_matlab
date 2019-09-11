@@ -19,7 +19,7 @@ ENV XAPPLRESDIR=/usr/local/MATLAB/MATLAB_Runtime/v901/X11/app-defaults
 ENV MCR_CACHE_VERBOSE=true
 ENV MCR_CACHE_ROOT=/tmp
 
-# Copy hello world repo 
+# Copy hello_world repo 
 COPY /hello_world /home/ops/verdi/ops/hello_world
 
 # Set entrypoint
